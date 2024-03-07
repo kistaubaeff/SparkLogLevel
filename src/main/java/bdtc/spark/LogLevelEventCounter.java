@@ -46,12 +46,12 @@ public class LogLevelEventCounter {
             }, Encoders.bean(LogLevelHour.class))
                 .coalesce(1);
 
-        // Группирует по значениям часа и уровня логирования
-        Dataset<Row> t = logLevelHourDataset.groupBy("hour", "logLevel")
+        // Группирует уровню логирования
+        Dataset<Row> t = logLevelHourDataset.groupBy("logLevel")
                 .count()
-                .toDF("hour", "logLevel", "count")
-                // сортируем по времени лога - для красоты
-                .sort(functions.asc("hour"));
+                .toDF("logLevel", "count")
+                // сортируем по количеству логов за сутки
+                .sort(functions.asc("logLevel"));
         log.info("===========RESULT=========== ");
         t.show();
         return t.toJavaRDD();

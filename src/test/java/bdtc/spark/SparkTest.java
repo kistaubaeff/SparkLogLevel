@@ -31,10 +31,9 @@ public class SparkTest {
         JavaRDD<String> dudu = sc.parallelize(Arrays.asList(testString1));
         JavaRDD<Row> result = countLogLevelPerHour(ss.createDataset(dudu.rdd(), Encoders.STRING()));
         List<Row> rowList = result.collect();
-
-        assert rowList.iterator().next().getInt(0) == 13;
-        assert rowList.iterator().next().getString(1).equals("6");
-        assert rowList.iterator().next().getLong(2) == 1;
+        System.out.println(rowList);
+        assert rowList.iterator().next().getString(0).equals("6");
+        assert rowList.iterator().next().getLong(1) == 1;
     }
 
     @Test
@@ -46,9 +45,8 @@ public class SparkTest {
         JavaRDD<Row> result = countLogLevelPerHour(ss.createDataset(dudu.rdd(), Encoders.STRING()));
         List<Row> rowList = result.collect();
 
-        assert rowList.iterator().next().getInt(0) == 13;
-        assert rowList.iterator().next().getString(1).equals("6");
-        assert rowList.iterator().next().getLong(2) == 2;
+        assert rowList.iterator().next().getString(0).equals("6");
+        assert rowList.iterator().next().getLong(1) == 2;
     }
 
     @Test
@@ -58,16 +56,8 @@ public class SparkTest {
         JavaRDD<String> dudu = sc.parallelize(Arrays.asList(testString1, testString3));
         JavaRDD<Row> result = countLogLevelPerHour(ss.createDataset(dudu.rdd(), Encoders.STRING()));
         List<Row> rowList = result.collect();
-        Row firstRow = rowList.get(0);
-        Row secondRow = rowList.get(1);
-
-        assert firstRow.getInt(0) == 13;
-        assert firstRow.getString(1).equals("6");
-        assert firstRow.getLong(2) == 1;
-
-        assert secondRow.getInt(0) == 14;
-        assert secondRow.getString(1).equals("6");
-        assert secondRow.getLong(2) == 1;
+        assert rowList.iterator().next().getString(0).equals("6");
+        assert rowList.iterator().next().getLong(1) == 2;
     }
 
     @Test
@@ -77,21 +67,15 @@ public class SparkTest {
         JavaRDD<String> dudu = sc.parallelize(Arrays.asList(testString1, testString2, testString3));
         JavaRDD<Row> result = countLogLevelPerHour(ss.createDataset(dudu.rdd(), Encoders.STRING()));
         List<Row> rowList = result.collect();
+
         Row firstRow = rowList.get(0);
         Row secondRow = rowList.get(1);
-        Row thirdRow = rowList.get(2);
 
-        assert firstRow.getInt(0) == 13;
-        assert firstRow.getString(1).equals("6");
-        assert firstRow.getLong(2) == 1;
+        assert firstRow.getString(0).equals("3");
+        assert firstRow.getLong(1) == 1;
 
-        assert secondRow.getInt(0) == 14;
-        assert secondRow.getString(1).equals("3");
-        assert secondRow.getLong(2) == 1;
-
-        assert thirdRow.getInt(0) == 14;
-        assert thirdRow.getString(1).equals("6");
-        assert thirdRow.getLong(2) == 1;
+        assert secondRow.getString(0).equals("6");
+        assert secondRow.getLong(1) == 2;
     }
 
 }
