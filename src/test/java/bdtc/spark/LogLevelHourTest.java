@@ -59,7 +59,7 @@ public class LogLevelHourTest {
     @Test
     public void testToString() {
         LogLevelHour logLevelHour = new LogLevelHour("INFO", 2);
-        assertEquals("LogLevelHour{logLevel='INFO', hour=2}", logLevelHour.toString());
+        assertEquals("LogLevelHour(logLevel=INFO, hour=2)", logLevelHour.toString());
     }
 
     @Test
