@@ -14,7 +14,7 @@ RUN wget --no-check-certificate https://archive.apache.org/dist/spark/spark-2.3.
     && rm spark-2.3.1-bin-hadoop2.7.tgz
 
 
-COPY ./hadoop-app/bootstrap.sh /usr/local/bin/start.sh
+COPY ./hadoop-app/start.sh /usr/local/bin/start.sh
 COPY /target/lab2-1.0-SNAPSHOT-jar-with-dependencies.jar /tmp/
 
 RUN chmod +x /usr/local/bin/start.sh
