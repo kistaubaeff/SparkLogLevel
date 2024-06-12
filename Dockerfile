@@ -1,3 +1,4 @@
+
 FROM zoltannz/hadoop-ubuntu:2.8.1
 
 
@@ -13,9 +14,8 @@ RUN wget --no-check-certificate https://archive.apache.org/dist/spark/spark-2.3.
     && rm spark-2.3.1-bin-hadoop2.7.tgz
 
 
-COPY bootstrap.sh /usr/local/bin/bootstrap.sh
+COPY ./hadoop-app/bootstrap.sh /usr/local/bin/start.sh
 COPY /target/lab2-1.0-SNAPSHOT-jar-with-dependencies.jar /tmp/
 
-RUN chmod +x /usr/local/bin/bootstrap.sh
+RUN chmod +x /usr/local/bin/start.sh
 
-ENTRYPOINT ["/bin/bash", "/usr/local/bin/bootstrap.sh"]
