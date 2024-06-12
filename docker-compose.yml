@@ -1,0 +1,49 @@
+services:
+  spark-hadoop:
+    build: .
+    container_name: hadoop_spark_sqoop
+    environment:
+      - HADOOP_PREFIX=/usr/local/hadoop
+      - PATH=$PATH:/usr/local/hadoop/bin/
+      - SPARK_HOME=/spark-2.3.1-bin-hadoop2.7
+      - HADOOP_CONF_DIR=/usr/local/hadoop/etc/hadoop
+      - PATH=$PATH:/spark-2.3.1-bin-hadoop2.7/bin
+      - PATH=$PATH:/sqoop-1.4.7.bin__hadoop-2.6.0/bin
+    ports:
+      - '2122:2122'
+      - '8020:8020'
+      - '8030:8030'
+      - '8040:8040'
+      - '8042:8042' 
+      - '8088:8088'
+      - '9000:9000'
+      - '10020:10020'
+      - '19888:19888'  
+      - '49707:49707' 
+      - '50010:50010' 
+      - '50020:50020'
+      - '50070:50070' 
+      - '50075:50075' 
+      - '50090:50090'
+    depends_on:
+      - postgres
+    command: bash -c "while !</dev/tcp/postgres/5432; do sleep 1; done; /etc/bootstrap.sh; /usr/local/bin/start.sh -d"
+    
+
+  postgres:
+    image: postgres:latest
+    container_name: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1234
+      POSTGRES_DB: hadoopdb
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
+
+
+volumes:
+  postgres-data:
+
